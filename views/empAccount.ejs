@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12"
+        style="background-image: url('images/img7.webp'); background-size: cover;">
+        <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+            <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+                <div class="max-w-md mx-auto">
+                    <div>
+                        <h1 class="text-2xl font-semibold">Add Account</h1>
+                    </div>
+                    <div class="divide-y divide-gray-200">
+                        <form action="/add_account" method="post"
+                            class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                            <div class="relative">
+                                <input id="name" type="text" name="Uname"
+                                    class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                                    placeholder="Full Name" required />
+                            </div>
+                            <div class="relative">
+                                <input id="user_name" type="text" name="user_name"
+                                    class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                                    placeholder="User Name" required oninput="check(this)" />
+                            </div>
+                            <div class="relative">
+                                <input id="address" type="text" name="address"
+                                    class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                                    placeholder="Addres" required />
+                            </div>
+                            <div class="relative">
+                                <input id="mobile" type="number" name="mobile"
+                                    class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600 "
+                                    placeholder="Moblie Number" required />
+                            </div>
+                            <div class="relative">
+                                <input id="password" type="password" name="password"
+                                    class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600 "
+                                    placeholder="Password" required />
+                            </div>
+                            <div class="relative">
+                                <input id="cpassword" type="password" name="cpassword"
+                                    class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600 "
+                                    placeholder="Confirm Password" required oninput="validate()" />
+                            </div>
+                            <pre style="color: red; font-size: small;" id="errorMsg"></pre>
+                            <div class="relative">
+                                <button type="submit" class="bg-blue-500 text-white rounded-md px-4 py-2">
+                                    Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const errorMsg = document.getElementById("errorMsg");
+    const password = document.getElementById("password");
+    const cpassword = document.getElementById("cpassword");
+    const validate = () => {
+        if (password.value != cpassword.value) {
+            errorMsg.innerHTML = "Passwords Don't Match";
+        }
+        else {
+            errorMsg.innerHTML = "";
+        }
+    }
+
+    let timeoutId;
+    const fetchData = (callback) => {
+        clearTimeout(timeoutId);
+
+        timeoutId = setTimeout(() => callback(), 1000)
+    }
+
+
+    let check = (prop) => {
+        let data = [];
+
+
+        fetchData(() => {
+            fetch("http://localhost:4000/transaction_history")
+                .then(response => response.json())
+                .then((response) => {
+                    response.forEach(element => {
+                        data.push((element.user_name).toLowerCase());
+                    });
+                })
+                .then(() => {
+                    if (data.includes((prop.value).toLowerCase())) {
+                        errorMsg.innerHTML = "Username already exists";
+                    } else {
+                        if (prop.value.length < 6) {
+                            errorMsg.innerHTML = "User name must be greater\nthan 6";
+                        }
+                        else {
+                            if (prop.value.slice(0, 2).toLowerCase() != "c_") {
+                                errorMsg.innerHTML = "Invalid Username";
+                            }
+                            else {
+                                errorMsg.innerHTML = "";
+                            }
+                        }
+                    }
+
+                })
+                .catch(err => console.log(err));
+        })
+
+    };
+
+</script>
+
+</html>

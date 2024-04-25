@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/customer.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .modal-content {
+            box-shadow: 0px 0px 20px green;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            width: 300px;
+            opacity: 0;
+            animation: fadein 1s ease-in-out forwards;
+        }
+
+        .checkmark-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #2ecc71;
+            margin: 0 auto;
+            transform: scale(0);
+            animation: circle-appear 0.5s ease-in-out 0.3s forwards, circle-scale 0.5s ease-in-out 0.8s forwards;
+            box-shadow: 0px 0px 15px rgba(46, 204, 113, 0.5);
+            border: 8px solid #fff;
+        }
+
+        .checkmark::before {
+            content: '\2713';
+            font-size: 48px;
+            color: #fff;
+            opacity: 0;
+            animation: checkmark-appear 0.5s ease-in-out 1.3s forwards;
+        }
+
+        .message {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+            opacity: 0;
+            animation: message-appear 0.5s ease-in-out 1.8s forwards;
+            margin-top: 30px;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes fadein {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes circle-appear {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes circle-scale {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes checkmark-appear {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes message-appear {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-footer {
+            border-top: none !important;
+        }
+
+        .modal-header {
+            border-bottom: none !important;
+        }
+
+        .checkmark-circle2 {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ff4d4d;
+            margin: 0 auto;
+            transform: scale(0);
+            animation: circle-appear 0.5s ease-in-out 0.3s forwards, circle-scale 0.5s ease-in-out 0.8s forwards;
+            box-shadow: 0px 0px 15px rgba(255, 77, 77, 0.5);
+            border: 8px solid #fff;
+        }
+
+        .checkmark2::before {
+            content: '\2718';
+            font-size: 48px;
+            color: #fff;
+            opacity: 0;
+            animation: checkmark-appear 0.5s ease-in-out 1.3s forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main shadow-lg"
+        style="background-image: url('/images/img5.jpg'); background-repeat: no-repeat; background-size: cover;">
+        <div class=" heading2">
+            <h1>My Details</h1>
+        </div>
+        <div class="container2">
+            <header>
+                <span class="logo">
+                    <img src="/images/logo.png" alt="" />
+                    <h5>
+                        <%= detail[0].name %>
+                    </h5>
+                </span>
+                <img src="/images/chip.png" alt="" class="chip" />
+            </header>
+
+            <div class="card-details">
+                <div class="name-number">
+                    <h6>Account Number</h6>
+                    <h5 class="number">
+                        <%= detail[0].account_no %>
+                    </h5>
+                    <h5 class="name">
+                        IFCS:<%= detail[0].ifsc_code %>
+                    </h5>
+                </div>
+                <div class="valid-date">
+                    <h6>Balance</h6>
+                    <h5>
+                        <%= detail[0].balance %>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="transaction">
+        <div class="main shadow-lg"
+            style="background-image: url('/images/img5.jpg'); background-repeat: no-repeat; background-size: cover;">
+            <div class="heading2">
+                <h1>Transfer Money</h1>
+            </div>
+            <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20" style="width: 300px;">
+                <div class="divide-y divide-gray-200">
+                    <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                        <% const accountNo=detail[0].account_no; %>
+                            <% const sendername=detail[0].name; %>
+                                <div style="display: none;">
+                                    <input id="sender" value="<%= accountNo %>" name="sender" />
+                                </div>
+                                <div style="display: none;">
+                                    <input id="sendername" value="<%= sendername %>" name="sendername" />
+                                </div>
+                                <div class="relative">
+                                    <input id="account" type="number" name="account"
+                                        class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                                        placeholder="Account no." required />
+                                </div>
+                                <div class="relative">
+                                    <input id="amount" type="number" name="amount"
+                                        class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                                        placeholder="Amount" required />
+                                </div>
+                                <div class="relative">
+                                    <input id="password" type="password" name="password"
+                                        class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600 "
+                                        placeholder="Password" required />
+                                </div>
+                                <div class="relative">
+                                    <button onclick="test(this)"
+                                        class="bg-blue-500 text-white rounded-md px-4 py-2">Send
+                                    </button>
+                                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="transfer-history-main">
+        <div class="main shadow-lg"
+            style="background-image: url('/images/img5.jpg'); background-repeat: no-repeat; background-size: cover;">
+            <div class="heading2">
+                <h1>Transfer History</h1>
+            </div>
+            <div class="history">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(var i=0; i< history.length; i++) {%>
+                            <tr>
+                                <th>
+                                    <%= history[i].transaction_id %>
+                                </th>
+                                <th>
+                                    <%=
+                                        detail[0].account_no==history[i].sender_account_no?history[i].receiver_name:history[i].sender_name%>
+                                </th>
+                                <th>
+                                    <%= history[i].date.toString().substring(0,21) %>
+                                </th>
+                                <th>
+                                    <%=
+                                        detail[0].account_no==history[i].sender_account_no?(history[i].amount)*(-1):history[i].amount%>
+                                </th>
+                            </tr>
+                            <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <button id="status" style="display: none;" type="button" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop">
+        Click Here
+    </button>
+
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="checkmark-circle">
+                            <div class="checkmark"></div>
+                        </div>
+                        <div class="message">Transaction Completed Successfully</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button id="status2" style="display: none;" type="button" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop2">
+        Click Here
+    </button>
+
+    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="box-shadow: 0 0 20px red;">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="checkmark-circle2">
+                            <div class="checkmark2"></div>
+                        </div>
+                        <div class="message">Transaction Unsuccessful</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const status = document.getElementById("status")
+    const status2 = document.getElementById("status2")
+    const test = async (e) => {
+        const a1 = document.getElementById("sender")
+        const a2 = document.getElementById("sendername")
+        const a3 = document.getElementById("account")
+        const a4 = document.getElementById("amount")
+        const a5 = document.getElementById("password")
+        const data = {
+            sender: a1.value,
+            sendername: a2.value,
+            account: a3.value,
+            amount: a4.value,
+            password: a5.value,
+        }
+        // e.preventDefault();
+        console.log(data)
+        const url = "http://localhost:4000/transaction"
+        const options = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+        const Response = await fetch(url, options);
+        const json = await Response.json()
+        console.log(json)
+        if (json) {
+            status.click()
+        }
+        else {
+            status2.click()
+        }
+
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+</html>

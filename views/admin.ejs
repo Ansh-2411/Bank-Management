@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        #customer-detail-model {
+            background: #f2f3f4;
+            padding: 20px;
+            border-radius: 20px;
+            height: fit-content;
+        }
+
+        body {
+            background-image: url('images/img6.jpeg');
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container my-6">
+        <h1>Employee Details</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Job</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                    <th> <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            Add
+                        </button></th>
+                </tr>
+            </thead>
+            <tbody id="employee">
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="min-h-screen flex flex-col justify-center sm:py-12">
+                        <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+                            <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20"
+                                style="width: 300px;">
+                                <div class="max-w-md mx-auto">
+                                    <div>
+                                        <h1 class="text-2xl font-semibold">Add Employee</h1>
+                                    </div>
+                                    <div class="divide-y divide-gray-200">
+                                        <form action="/add_employee" method="post"
+                                            class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                                            <div class="relative">
+                                                <input id="name" type="text" name="name"
+                                                    class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                                                    placeholder="Name" required />
+                                            </div>
+                                            <div class="relative">
+                                                <input id="user_name" type="text" name="user_name"
+                                                    class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600 "
+                                                    placeholder="User Name" oninput="check(this)" required />
+                                            </div>
+                                            <div class="relative">
+                                                <input id="mobile_no" type="number" name="mobile_no"
+                                                    class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600 "
+                                                    placeholder="Mobile no" required />
+                                            </div>
+                                            <div class="relative">
+                                                <input id="address" type="text" name="address"
+                                                    class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600 "
+                                                    placeholder="Address" required />
+                                            </div>
+                                            <div class="relative">
+                                                <input id="job" type="text" name="job"
+                                                    class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600 "
+                                                    placeholder="Job" required />
+                                            </div>
+                                            <div class="relative">
+                                                <input id="Password" type="password" name="Password"
+                                                    class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600 "
+                                                    placeholder="Password" required />
+                                            </div>
+                                            <div class="relative">
+                                                <input id="cPassword" type="password" name="cPassword"
+                                                    class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600 "
+                                                    placeholder="Confirm Password" required oninput="validate()" />
+                                            </div>
+                                            <pre style="color: red; font-size: small;" id="errorMsg"></pre>
+                                            <div class="relative">
+                                                <button type="submit"
+                                                    class="bg-blue-500 text-white rounded-md px-4 py-2">Add
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Button trigger modal -->
+    <div class="container text-center">
+        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+            Get customer Details
+        </button>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Customer Detail</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="mb-3">
+                            <label for="detail-account" class="col-form-label">Account Number</label>
+                            <input type="text" class="form-control" id="detail-account">
+                        </div>
+                        <button class="btn btn-info" onclick="getDetail()">submit</button>
+                    </div>
+                    <div id="customer-detail-model" style="display: none;" class="my-5"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="transactionDiv">
+        <h1>Today's Transaction</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sr no.</th>
+                    <th>Sender</th>
+                    <th>Reciever</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="trans">
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    const errorMsg = document.getElementById("errorMsg");
+    const password = document.getElementById("Password");
+    const cpassword = document.getElementById("cPassword");
+    let data = [];
+    let timeoutId;
+    const validate = () => {
+        if (password.value != cpassword.value) {
+            errorMsg.innerHTML = "Passwords Don't Match";
+        }
+        else {
+            errorMsg.innerHTML = "";
+        }
+    }
+    const fetchData = (callback) => {
+        clearTimeout(timeoutId);
+
+        timeoutId = setTimeout(() => callback(), 1000)
+    }
+    const check = (prop) => {
+
+
+        fetchData(() => {
+            console.log(data.includes((prop.value).toLowerCase()))
+            if (data.includes((prop.value).toLowerCase())) {
+                errorMsg.innerHTML = "Username already exists";
+            } else {
+                if (prop.value.length < 6) {
+                    errorMsg.innerHTML = "User name must be greater\nthan 6";
+                }
+                else {
+                    if (prop.value.slice(0, 2).toLowerCase() != "e_") {
+                        errorMsg.innerHTML = "User name must start with e_";
+                    }
+                    else {
+                        errorMsg.innerHTML = "";
+                    }
+                }
+            }
+
+
+        })
+
+    }
+    const empdetail = document.getElementById("employee")
+    fetch("http://localhost:4000/empdetail")
+        .then(Response => Response.json())
+        .then((Response) => {
+            for (let index = 0; index < Response.length; index++) {
+                data.push((Response[index].user_name).toLowerCase())
+                empdetail.innerHTML += `<tr>
+                    <th>${Response[index].employee_id}</th>
+                    <th>${Response[index].name}</th>
+                    <th>${Response[index].job}</th>
+                    <th>${Response[index].mobile_no}</th>
+                    <th>${Response[index].address}</th>
+                    <th><button id="${Response[index].employee_id}" onclick="deleteEmp(this)" class="btn btn-danger">Delete</button></th>
+                    </tr>`
+
+            }
+        })
+        .catch(err => console.log(err))
+    const trans = document.getElementById("trans");
+    fetch("http://localhost:4000/todaytransaction")
+        .then(Response => Response.json())
+        .then((Response) => {
+            if (Response.length == 0) {
+                document.getElementById("transactionDiv").style.display = "none"
+            }
+            for (let index = 0; index < Response.length; index++) {
+                trans.innerHTML += `<tr>
+                    <th>${index + 1}</th>
+                    <th>${Response[index].sender_name}</th>
+                    <th>${Response[index].receiver_name}</th>
+                    <th>${Response[index].amount}</th>
+                    </tr>`
+
+            }
+        })
+        .catch(err => console.log(err))
+
+
+    const deleteEmp = async (prop) => {
+        const id = parseInt(prop.id);
+        console.log(id)
+        const data = {
+            id: id
+        }
+        const url = "http://localhost:4000/deleteEmp"
+        const options = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+        const Response = await fetch(url, options);
+        const json = await Response.json()
+        console.log(Response)
+    }
+    const getDetail = () => {
+        const detail_account = document.getElementById("detail-account")
+        const data = {
+            account: detail_account.value
+        }
+        const url = "http://localhost:4000/customerDeatil"
+        const options = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+        fetch(url, options)
+            .then(Response => Response.json())
+            .then((Response) => {
+                document.getElementById("customer-detail-model").style.display = "block"
+                if (Response.length == 0) {
+                    document.getElementById("customer-detail-model").innerHTML = "Account doesn't exists!"
+                }
+                else {
+                    document.getElementById("customer-detail-model").innerHTML = `
+        <p>Name:${Response[0].name}<p/>
+        <p>Account Number:${Response[0].account_no}<p/>
+        <p>IFSC:${Response[0].ifsc_code}<p/>
+        <p>Address:${Response[0].address}<p/>
+        <p>Mobile Number:${Response[0].mobile_no}<p/>
+        <p>Balance:${Response[0].balance}<p/>
+        <p>Date:${Response[0].date_of_open.slice(0, 10)}<p/>
+        `
+                }
+
+            })
+            .catch(err => console.log(err))
+
+
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+
+</html>
